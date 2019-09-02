@@ -17,11 +17,13 @@
 class GameController {
 	Player player;
 	Enemy enemy1, enemy2, enemy3;
-	int loopNo;
-	int lastBulletReleased;
+	unsigned int loopNo;
 	//Bullet bullet1, bullet2, bullet3, bullet4;
     NewBullet newBullet1, newBullet2, newBullet3, newBullet4;
 	int randomPlayerMovementFlag;  //0 = move left, 1 = move right
+
+	NewBullet bulletPool[BULLET_POOL_SIZE];
+
 
 
 
@@ -63,26 +65,38 @@ class GameController {
 
 	}
 
-
-    void updateNewBullet(NewBullet &newBullet) {
-
-
-	    unsigned  int respawnTime = BULLET_SPAWN_TIME;
-
-	    if(respawnTime <= newBullet.getRespawnTimeCounter() ) {
-
-	        newBullet.setRespawnTimeCounter(0);
+	void activeBulletForShooting(NewBullet &newBullet) {
+		
+			newBullet.setRespawnTimeCounter(0);
+			newBullet.setMoveTimeCounter(0);
 	        newBullet.setIsAlive(true);
 	        newBullet.setBulletPosition(player.getX(), player.getY() - 2);
             setIndexInBoard(newBullet.getX(), newBullet.getY());
+	}
 
-	    }
+
+    void updateNewBullet(NewBullet &newBullet) {
+
+		//removed as moving to a different bullet spawn system
+	    // unsigned  int respawnTime = BULLET_SPAWN_TIME;
+
+	    // if(respawnTime <= newBullet.getRespawnTimeCounter() ) {
+
+	    //     newBullet.setRespawnTimeCounter(0);
+	    //     newBullet.setIsAlive(true);
+	    //     newBullet.setBulletPosition(player.getX(), player.getY() - 2);
+        //     setIndexInBoard(newBullet.getX(), newBullet.getY());
+
+	    // }
+		//newBullet.setRespawnTimeCounter( newBullet.getRespawnTimeCounter() + 1);
+
 
         unsigned int moveTime= BULLET_MOVE_TIME;
+
         unsigned int currentTime = newBullet.getMoveTimeCounter();
 
         newBullet.setMoveTimeCounter(currentTime + 1);
-        newBullet.setRespawnTimeCounter( newBullet.getRespawnTimeCounter() + 1);
+
 
         if (newBullet.getMoveTimeCounter() >= moveTime) {
             Position p = newBullet.getBulletPosition();
@@ -92,6 +106,7 @@ class GameController {
             int newY = p.getY() - 1;
 
             if(newY == -1) {
+				if(newBullet.IsAlive()) resetIndexInBoard(prevX, prevY);
                 newBullet.setIsAlive(false);
                 newY = 7;
             }
@@ -134,6 +149,11 @@ class GameController {
        newBullet2 = NewBullet(2000, 0,0);
        newBullet3 = NewBullet(4000, 0,0);
        newBullet4 = NewBullet(6000, 0,0);
+
+
+	   for(int i = 0; i < BULLET_POOL_SIZE; i++) {
+		   bulletPool[i] = NewBullet(0,0,0);
+	   }
 
 
 
@@ -258,13 +278,31 @@ class GameController {
 
 
     void updateNewBulletPositions() {
-        updateNewBullet(newBullet1);
-        updateNewBullet(newBullet2);
-        updateNewBullet(newBullet3);
-        updateNewBullet(newBullet4);
+			// updateNewBullet(newBullet1);
+			// updateNewBullet(newBullet2);
+			// updateNewBullet(newBullet3);
+			// updateNewBullet(newBullet4);
+
+	for(int i = 0; i < BULLET_POOL_SIZE; i++) {
+		updateNewBullet(bulletPool[i]);
+	}
 
 
 
+}
+
+void shootNewBullet() {
+	if(loopNo % BULLET_SPAWN_TIME == 0) {
+		for(int i = 0; i < BULLET_POOL_SIZE; i++) {
+		if(bulletPool[i].IsAlive() == false) {
+			activeBulletForShooting(bulletPool[i]);
+			return;
+		}
+	}
+
+	}
+
+	
 }
 
 	void initEnemyPositions(){

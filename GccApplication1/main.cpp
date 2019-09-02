@@ -27,6 +27,7 @@ void loop(unsigned loopNo) {
 	gameController.setLoopNo(loopNo);
 	gameController.updateEnemyPositions();
 	gameController.simulateRandomPlayerMovements();
+	gameController.shootNewBullet();
 	gameController.updateNewBulletPositions();
 	
 	HardwareController::displayBoardMatrixBackup(gameController.displayBoard);
