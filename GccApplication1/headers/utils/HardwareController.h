@@ -10,6 +10,15 @@
 #include <util/delay.h>
 
 #include "LED.h"
+/**LCD**/
+#define D4 eS_PORTD4
+#define D5 eS_PORTD5
+#define D6 eS_PORTD6
+#define D7 eS_PORTD7
+#define RS eS_PORTC6
+#define EN eS_PORTC7
+#include "LCD.h"
+/** ** **/
 
 
 class HardwareController
@@ -45,6 +54,12 @@ public:
         //LED MATRIX OUTPUT
         DDRA = 255;
         DDRB = 255;
+		//LCD DISPLAY
+		DDRD = 0xFF;
+		DDRC = 0xFF;
+		Lcd4_Init();
+		
+		 
 		// MCUCSR = (1<<JTD);
 		// MCUCSR = (1<<JTD);// We need to do this twice in order to use PORTC directly for IO
 		
@@ -72,7 +87,13 @@ public:
 				  }
 			  }
 		  }
-	  }
+	 }
+	static void displayLcd(char * str){
+		Lcd4_Clear();
+		Lcd4_Set_Cursor(1, 0);
+		Lcd4_Write_String(str);
+		//TODO: possible delay	 	
+	}
 	
 	/* static void gyroLoop(){
 		gyroLibLoop();

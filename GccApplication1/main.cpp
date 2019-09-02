@@ -13,6 +13,7 @@ void softwareSetup() {
 void setup() {
     softwareSetup();
 	HardwareController::hardWareSetup();
+	
 }
 
 
@@ -25,6 +26,7 @@ void loop(unsigned loopNo) {
 	gameController.updateBasedOnCollisions();
 	
 	HardwareController::displayBoardMatrixBackup(gameController.displayBoard);
+	HardwareController::displayLcd(gameController.getScoreString());
 }
 
 int main() {

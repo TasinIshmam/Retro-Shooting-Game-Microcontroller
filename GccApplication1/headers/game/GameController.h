@@ -10,7 +10,7 @@
 #include "Enemy.h"
 #include "NewBullet.h"
 #include <stdlib.h>
-
+#include <string.h>
 
 const int PLAYER_STATUS_IN_BOARD = 1;
 const int ENEMY_STATUS_IN_BOARD = 2;
@@ -18,8 +18,9 @@ const int BULLET_STATUS_IN_BOARD = 3;
 
 class GameController {
 	
-	 unsigned int enemyBulletCollisionCounter ;
-	 unsigned int enemyPlayerCollisionCounter ;
+	unsigned int enemyBulletCollisionCounter ;
+	unsigned int enemyPlayerCollisionCounter ;
+	char* score1,*score2;	
 	
 	Player player;
 	//Enemy enemy1, enemy2, enemy3;
@@ -184,7 +185,10 @@ class GameController {
 
 	enemyBulletCollisionCounter = 0;
 	enemyPlayerCollisionCounter = 0;
-
+	
+	score1 = (char *)malloc(4*sizeof(char));
+	score2 = (char *)malloc(4*sizeof(char));
+	
 	for(int i = 0; i < ENEMY_POOL_SIZE; i++) {
 
 		enemyPool[i] = Enemy(i * 500, getRandomBoardXCordinate() , 0);
@@ -382,8 +386,18 @@ class GameController {
 		return false;
 	}
 	
-	
-
+	char* getScoreString(){
+		
+		
+	//todo: score logic needs to be updated	
+	itoa (enemyBulletCollisionCounter,score1,10);
+	itoa (enemyPlayerCollisionCounter,score2,10);
+		
+	strcat(score1,score2);
+		
+	return score1;
+		 	
+	}
 
 	// for all objects, check for collision, update collision count and reset boards
 	void updateBasedOnCollisions() {
