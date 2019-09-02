@@ -5,7 +5,6 @@
 #ifndef ARCADESHOOTER_PLAYER_H
 #define ARCADESHOOTER_PLAYER_H
 
-
 class Player {
 
     Position playerPosition;
@@ -13,7 +12,7 @@ class Player {
 
 public:
     Player() {
-        playerPosition = Position(4,BOARD_HEIGHT-1);  //7,4 index rn //TODO: why is y passed as x ?
+        playerPosition = Position(4,BOARD_HEIGHT-1);
     }
 
     int getX() const {

@@ -1,0 +1,6 @@
+#ifndef ARCADESHOOTER_COLLISION_H
+#define ARCADESHOOTER_COLLISION_H
+
+
+
+#endif

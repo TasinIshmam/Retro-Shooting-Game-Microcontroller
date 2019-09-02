@@ -1,6 +1,4 @@
-//
-// Created by hp on 8/16/2019.
-//
+
 
 #ifndef ARCADESHOOTERCLION_GAMECONTROLLER_H
 #define ARCADESHOOTERCLION_GAMECONTROLLER_H
@@ -10,16 +8,19 @@
 #include "Position.h"
 #include "Player.h"
 #include "Enemy.h"
-#include "Bullet.h"
 #include "NewBullet.h"
 
+
+const int SHIP_STATUS_IN_BOARD = 1;
+const int ENEMY_STATUS_IN_BOARD = 2;
+const int BULLET_STATUS_IN_BOARD = 3;
 
 class GameController {
 	Player player;
 	Enemy enemy1, enemy2, enemy3;
 	unsigned int loopNo;
-	//Bullet bullet1, bullet2, bullet3, bullet4;
-    NewBullet newBullet1, newBullet2, newBullet3, newBullet4;
+//	  Bullet bullet1, bullet2, bullet3, bullet4;
+//    NewBullet newBullet1, newBullet2, newBullet3, newBullet4;
 	int randomPlayerMovementFlag;  //0 = move left, 1 = move right
 
 	NewBullet bulletPool[BULLET_POOL_SIZE];
@@ -53,7 +54,7 @@ class GameController {
 
 			if(enemy.IsAlive()) resetIndexInBoard(prevX,prevY);
 
-			if(enemy.IsAlive())setIndexInBoard(enemy.getX(),enemy.getY()); // no need to display if dead
+			if(enemy.IsAlive())setIndexInBoard(enemy.getX(),enemy.getY(), ENEMY_STATUS_IN_BOARD); // no need to display if dead
 
 			// //printStringToConsole("\n\n");
 			//            displayBoardDebug();
@@ -71,7 +72,7 @@ class GameController {
 			newBullet.setMoveTimeCounter(0);
 	        newBullet.setIsAlive(true);
 	        newBullet.setBulletPosition(player.getX(), player.getY() - 2);
-            setIndexInBoard(newBullet.getX(), newBullet.getY());
+            setIndexInBoard(newBullet.getX(), newBullet.getY(), BULLET_STATUS_IN_BOARD);
 	}
 
 
@@ -118,7 +119,7 @@ class GameController {
 
             if(newBullet.IsAlive()) resetIndexInBoard(prevX, prevY);
 
-            if(newBullet.IsAlive())setIndexInBoard(newBullet.getX(), newBullet.getY()); // no need to display if dead
+            if(newBullet.IsAlive())setIndexInBoard(newBullet.getX(), newBullet.getY(), BULLET_STATUS_IN_BOARD); // no need to display if dead
 
             // //printStringToConsole("\n\n");
             //            displayBoardDebug();
@@ -145,10 +146,10 @@ class GameController {
 //		bullet3 = Bullet(0,0, false);
 //		bullet4 = Bullet(0,0, false);
 
-       newBullet1 = NewBullet(0, 0,0);
-       newBullet2 = NewBullet(2000, 0,0);
-       newBullet3 = NewBullet(4000, 0,0);
-       newBullet4 = NewBullet(6000, 0,0);
+    //    newBullet1 = NewBullet(0, 0,0);
+    //    newBullet2 = NewBullet(2000, 0,0);
+    //    newBullet3 = NewBullet(4000, 0,0);
+    //    newBullet4 = NewBullet(6000, 0,0);
 
 
 	   for(int i = 0; i < BULLET_POOL_SIZE; i++) {
@@ -283,32 +284,26 @@ class GameController {
 			// updateNewBullet(newBullet3);
 			// updateNewBullet(newBullet4);
 
-	for(int i = 0; i < BULLET_POOL_SIZE; i++) {
-		updateNewBullet(bulletPool[i]);
-	}
-
-
-
-}
-
-void shootNewBullet() {
-	if(loopNo % BULLET_SPAWN_TIME == 0) {
 		for(int i = 0; i < BULLET_POOL_SIZE; i++) {
-		if(bulletPool[i].IsAlive() == false) {
-			activeBulletForShooting(bulletPool[i]);
-			return;
+			updateNewBullet(bulletPool[i]);
 		}
 	}
 
+	void shootNewBullet() {
+		if(loopNo % BULLET_SPAWN_TIME == 0) {
+			for(int i = 0; i < BULLET_POOL_SIZE; i++) {
+			if(bulletPool[i].IsAlive() == false) {
+				activeBulletForShooting(bulletPool[i]);
+				return;
+			}
+		}
 	}
-
-	
 }
 
 	void initEnemyPositions(){
-		setIndexInBoard(enemy1.getX(),enemy1.getY());
-		setIndexInBoard(enemy2.getX(),enemy2.getY());
-		setIndexInBoard(enemy3.getX(),enemy3.getY());
+		setIndexInBoard(enemy1.getX(),enemy1.getY(),ENEMY_STATUS_IN_BOARD);
+		setIndexInBoard(enemy2.getX(),enemy2.getY(), ENEMY_STATUS_IN_BOARD);
+		setIndexInBoard(enemy3.getX(),enemy3.getY(), ENEMY_STATUS_IN_BOARD);
 	}
 
 //	void launchBullet () {

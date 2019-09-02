@@ -1,7 +1,3 @@
-//
-// Created by Asus on 8/17/2019.
-//
-
 #ifndef ARCADESHOOTER_ENEMY_H
 #define ARCADESHOOTER_ENEMY_H
 
@@ -15,10 +11,10 @@ class Enemy {
 public:
 
     Enemy() {
-
         isAlive = true;
         enemyPosition = Position(0,0);
     }
+	
     Enemy(int spawnTimerCounter,int x,int y) {
         this->spawnTimerCounter = spawnTimerCounter;
         isAlive = true;
