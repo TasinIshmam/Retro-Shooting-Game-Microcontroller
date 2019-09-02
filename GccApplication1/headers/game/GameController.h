@@ -268,8 +268,7 @@ class GameController {
 		resetIndexInBoard(x, y);
 		resetIndexInBoard(x - 1, y);
 		resetIndexInBoard(x + 1, y);
-		
-		setIndexInBoard(x, y - 1);
+		resetIndexInBoard(x, y - 1);
 	}
 
 	void initializePlayerPosition() {
