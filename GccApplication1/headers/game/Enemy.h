@@ -5,20 +5,22 @@
 class Enemy {
 
     Position enemyPosition;
-    bool isAlive;
+    bool alive;
     unsigned int spawnTimerCounter;
+    unsigned int moveTimerCounter;
 
 public:
 
     Enemy() {
-        isAlive = true;
+        alive = true;
         enemyPosition = Position(0,0);
     }
 	
     Enemy(int spawnTimerCounter,int x,int y) {
         this->spawnTimerCounter = spawnTimerCounter;
-        isAlive = true;
+        alive = false;
         enemyPosition = Position(x,y);
+        moveTimerCounter = 0;
     }
 
     int getX() const {
@@ -38,12 +40,12 @@ public:
         Enemy::enemyPosition.setY(y);
     }
 
-    bool IsAlive() const {
-        return isAlive;
+    bool isAlive() const {
+        return alive;
     }
 
-    void setIsAlive(bool isAlive) {
-        Enemy::isAlive = isAlive;
+    void setIsAlive(bool isalive) {
+        Enemy::alive = isalive;
     }
 
     unsigned int getSpawnTimerCounter() const {
@@ -52,6 +54,14 @@ public:
 
     void setSpawnTimerCounter(unsigned int spawnTimerCounter) {
         Enemy::spawnTimerCounter = spawnTimerCounter;
+    }
+
+    unsigned int getMoveTimeCounter() const {
+        return moveTimerCounter;
+    }
+
+    void setMoveTimeCounter(unsigned int moveTimerCounterarg) {
+        Enemy::moveTimerCounter = moveTimerCounterarg;
     }
 };
 

@@ -36,6 +36,10 @@ public:
     void setY(int y) {
         Position::y = y;
     }
+
+    bool operator==(const Position other) const {
+        return x == other.x && y == other.y;
+    }
 };
 
 #endif //ARCADESHOOTER_POSITION_H

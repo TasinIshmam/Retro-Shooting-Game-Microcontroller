@@ -6,7 +6,7 @@ GameController gameController;
 void softwareSetup() {
     gameController = GameController();
     gameController.initializePlayerPosition();
-    gameController.initEnemyPositions();
+   // gameController.initEnemyPositions();
 }
 
 
@@ -15,13 +15,14 @@ void setup() {
 	HardwareController::hardWareSetup();
 }
 
+
 void loop(unsigned loopNo) {
-    
 	gameController.setLoopNo(loopNo);
 	gameController.updateEnemyPositions();
 	gameController.simulateRandomPlayerMovements();
 	gameController.shootNewBullet();
 	gameController.updateNewBulletPositions();
+	gameController.updateBasedOnCollisions();
 	
 	HardwareController::displayBoardMatrixBackup(gameController.displayBoard);
 }

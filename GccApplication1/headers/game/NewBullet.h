@@ -1,7 +1,3 @@
-//
-// Created by hp on 9/1/2019.
-//
-
 #ifndef ARCADESHOOTER_NEWBULLET_H
 #define ARCADESHOOTER_NEWBULLET_H
 

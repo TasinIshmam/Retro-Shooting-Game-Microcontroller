@@ -9,15 +9,28 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "NewBullet.h"
+#include <stdlib.h>
 
 
-const int SHIP_STATUS_IN_BOARD = 1;
+const int PLAYER_STATUS_IN_BOARD = 1;
 const int ENEMY_STATUS_IN_BOARD = 2;
 const int BULLET_STATUS_IN_BOARD = 3;
 
 class GameController {
+	
+	 unsigned int enemyBulletCollisionCounter ;
+	 unsigned int enemyPlayerCollisionCounter ;
+	
 	Player player;
-	Enemy enemy1, enemy2, enemy3;
+	//Enemy enemy1, enemy2, enemy3;
+
+	Enemy enemyPool[ENEMY_POOL_SIZE];
+
+	 int getRandomBoardXCordinate() {
+		 	return rand() % 8;
+	}
+
+	
 	unsigned int loopNo;
 //	  Bullet bullet1, bullet2, bullet3, bullet4;
 //    NewBullet newBullet1, newBullet2, newBullet3, newBullet4;
@@ -25,43 +38,60 @@ class GameController {
 
 	NewBullet bulletPool[BULLET_POOL_SIZE];
 
+	void updateEnemy(Enemy &enemy) {
 
-
-
-
-
-	private:
-
-	void updateEnemy(Enemy &enemy,int enemyNo) {
-
-		unsigned int moveTime=0;
-		if(enemyNo == 1)
-		moveTime = ENEMY1_MOVE_TIME;
-		else if(enemyNo == 2)
-		moveTime = ENEMY2_MOVE_TIME;
-		else if(enemyNo == 3)moveTime = ENEMY3_MOVE_TIME;
+		// unsigned int moveTime=0;
+		// if(enemyNo == 1)
+		// moveTime = ENEMY1_MOVE_TIME;
+		// else if(enemyNo == 2)
+		// moveTime = ENEMY2_MOVE_TIME;
+		// else if(enemyNo == 3)moveTime = ENEMY3_MOVE_TIME;
 
 		unsigned int currentTime = enemy.getSpawnTimerCounter();
 		enemy.setSpawnTimerCounter(currentTime + 1);
 
-		if (enemy.getSpawnTimerCounter() >= moveTime) {
-			Position p = enemy.getEnemyPosition();
-			int prevX = p.getX(),prevY = p.getY();
-
-			enemy.setEnemyPosition(prevX,(prevY+1)%BOARD_HEIGHT);
-			////printStringToConsole("Enemy "+to_string(enemyNo)+"("+to_string(enemy.getX())+","+to_string(enemy.getY())+")");
+		if( enemy.getSpawnTimerCounter() % ENEMY_SPAWN_TIME_NEW == 0 ) {
 			enemy.setSpawnTimerCounter(0);
 
-			if(enemy.IsAlive()) resetIndexInBoard(prevX,prevY);
+			if ( !enemy.isAlive() ) {
+				enemy.setEnemyPosition(getRandomBoardXCordinate(), 0);
+				enemy.setIsAlive(true);
+				setIndexInBoard(enemy.getX(), enemy.getY(),2);
+			}
+		}
+		
+		
+		enemy.setMoveTimeCounter(enemy.getMoveTimeCounter() + 1);
+	
 
-			if(enemy.IsAlive())setIndexInBoard(enemy.getX(),enemy.getY(), ENEMY_STATUS_IN_BOARD); // no need to display if dead
+		if (enemy.getMoveTimeCounter() >= ENEMY_MOVE_TIME_NEW && enemy.isAlive()) {
+			Position p = enemy.getEnemyPosition();
+			int prevX = p.getX(),prevY = p.getY();
+			enemy.setEnemyPosition(prevX,(prevY+1)%BOARD_HEIGHT);
+			////printStringToConsole("Enemy "+to_string(enemyNo)+"("+to_string(enemy.getX())+","+to_string(enemy.getY())+")");
+			enemy.setMoveTimeCounter(0);
+			resetIndexInBoard(prevX,prevY);
+
+			if(prevY == BOARD_HEIGHT - 1) {
+				enemy.setIsAlive(false);
+			}
+		
+		if(enemy.isAlive())	setIndexInBoard(enemy.getX(),enemy.getY(), ENEMY_STATUS_IN_BOARD); // no need to display if dead
 
 			// //printStringToConsole("\n\n");
 			//            displayBoardDebug();
 			//            //printStringToConsole("Enemy moved\n");
 		}
 
-		if(enemy.getY() == 0)enemy.setIsAlive(true); // if enemy goes down the screenbounds
+
+
+
+
+
+
+		
+
+		//if(enemy.getY() == 0)enemy.setIsAlive(true); // if enemy goes down the screenbounds
 
 
 	}
@@ -93,11 +123,8 @@ class GameController {
 
 
         unsigned int moveTime= BULLET_MOVE_TIME;
-
         unsigned int currentTime = newBullet.getMoveTimeCounter();
-
         newBullet.setMoveTimeCounter(currentTime + 1);
-
 
         if (newBullet.getMoveTimeCounter() >= moveTime) {
             Position p = newBullet.getBulletPosition();
@@ -119,7 +146,11 @@ class GameController {
 
             if(newBullet.IsAlive()) resetIndexInBoard(prevX, prevY);
 
-            if(newBullet.IsAlive())setIndexInBoard(newBullet.getX(), newBullet.getY(), BULLET_STATUS_IN_BOARD); // no need to display if dead
+            if(newBullet.IsAlive())
+				setIndexInBoard(newBullet.getX(),
+					newBullet.getY(),
+					BULLET_STATUS_IN_BOARD
+				); // no need to display if dead
 
             // //printStringToConsole("\n\n");
             //            displayBoardDebug();
@@ -137,9 +168,9 @@ class GameController {
 
 
 	GameController() {
-		enemy1 = Enemy(ENEMY1_INIT_TIME,0,0);
-		enemy2 = Enemy(ENEMY2_INIT_TIME,1,0);
-		enemy3 = Enemy(ENEMY3_INIT_TIME,2,0);
+		// enemy1 = Enemy(ENEMY1_INIT_TIME,0,0);
+		// enemy2 = Enemy(ENEMY2_INIT_TIME,1,0);
+		// enemy3 = Enemy(ENEMY3_INIT_TIME,2,0);
 //
 //		bullet1 = Bullet(0,0, false);
 //		bullet2 = Bullet(0,0, false);
@@ -151,10 +182,18 @@ class GameController {
     //    newBullet3 = NewBullet(4000, 0,0);
     //    newBullet4 = NewBullet(6000, 0,0);
 
+	enemyBulletCollisionCounter = 0;
+	enemyPlayerCollisionCounter = 0;
 
-	   for(int i = 0; i < BULLET_POOL_SIZE; i++) {
-		   bulletPool[i] = NewBullet(0,0,0);
-	   }
+	for(int i = 0; i < ENEMY_POOL_SIZE; i++) {
+
+		enemyPool[i] = Enemy(i * 500, getRandomBoardXCordinate() , 0);
+	}
+
+
+	    for(int i = 0; i < BULLET_POOL_SIZE; i++) {
+		    bulletPool[i] = NewBullet(0,0,0);
+	    }
 
 
 
@@ -187,7 +226,6 @@ class GameController {
 			}
 			////printStringToConsole("\n");
 		}
-
 	}
 
 	bool checkIfConflict(int x, int y) {
@@ -230,7 +268,8 @@ class GameController {
 		resetIndexInBoard(x, y);
 		resetIndexInBoard(x - 1, y);
 		resetIndexInBoard(x + 1, y);
-		resetIndexInBoard(x, y - 1);
+		
+		setIndexInBoard(x, y - 1);
 	}
 
 	void initializePlayerPosition() {
@@ -272,9 +311,13 @@ class GameController {
 	}
 
 	void updateEnemyPositions(){
-		updateEnemy(enemy1,1);
-		updateEnemy(enemy2,2);
-		updateEnemy(enemy3,3);
+		// updateEnemy(enemy1,1);
+		// updateEnemy(enemy2,2);
+		// updateEnemy(enemy3,3);
+
+		for(int i = 0; i < ENEMY_POOL_SIZE; i++) {
+			updateEnemy( enemyPool[i] );
+		}
 	}
 
 
@@ -301,9 +344,73 @@ class GameController {
 }
 
 	void initEnemyPositions(){
-		setIndexInBoard(enemy1.getX(),enemy1.getY(),ENEMY_STATUS_IN_BOARD);
-		setIndexInBoard(enemy2.getX(),enemy2.getY(), ENEMY_STATUS_IN_BOARD);
-		setIndexInBoard(enemy3.getX(),enemy3.getY(), ENEMY_STATUS_IN_BOARD);
+		//setIndexInBoard(enemy1.getX(),enemy1.getY(),ENEMY_STATUS_IN_BOARD);
+	//	setIndexInBoard(enemy2.getX(),enemy2.getY(), ENEMY_STATUS_IN_BOARD);
+	//	setIndexInBoard(enemy3.getX(),enemy3.getY(), ENEMY_STATUS_IN_BOARD);
+	}
+
+	
+	bool doesCollide(const Enemy &enemy, const NewBullet &bullet) {
+		
+		if (!enemy.isAlive() || !bullet.IsAlive())
+			return false;
+		
+		if (enemy.getEnemyPosition() == bullet.getBulletPosition()) {
+			return true;
+		}
+		
+		return false;
+	}
+
+
+	bool doesCollide(const Enemy &enemy) {
+		if (!enemy.isAlive()) return false;
+		
+		// dx and dy contains the change in x and y co-ordinate from origin of player position to get all the 
+		// points needed by player.
+		const int dx[] = {0, 0, -1, 1};
+		const int dy[] = {0, -1, 0, 0};
+			
+		const Position player_pos = player.getPlayerPosition();
+		const Position enemy_pos = enemy.getEnemyPosition();
+			
+		for (int i = 0; i < 4; i++) {
+			if (enemy_pos.getX() == player_pos.getX()+dx[i] && enemy_pos.getY() == player_pos.getY()+dy[i]) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	
+
+
+	// for all objects, check for collision, update collision count and reset boards
+	void updateBasedOnCollisions() {
+
+		// checking for bullet and enemy collisions		
+		for (unsigned int enemyCounter = 0; enemyCounter < ENEMY_POOL_SIZE; enemyCounter++) {
+			for (unsigned int bulletCounter = 0; bulletCounter < BULLET_POOL_SIZE; bulletCounter++) {
+				if (doesCollide(enemyPool[enemyCounter], bulletPool[bulletCounter])) {
+					enemyBulletCollisionCounter++;
+					
+					const Position position = enemyPool[enemyCounter].getEnemyPosition();
+					resetIndexInBoard(position.getX(), position.getY());
+					
+					bulletPool[bulletCounter].setIsAlive(false);
+					enemyPool[enemyCounter].setIsAlive(false);
+				}
+			}
+		}
+
+		// checking for collision of enemy with the player
+		for (unsigned int enemyCounter = 0; enemyCounter < ENEMY_POOL_SIZE; enemyCounter++) {
+			if (doesCollide(enemyPool[enemyCounter])) {
+				enemyPlayerCollisionCounter++;
+				enemyPool[enemyCounter].setIsAlive(false);
+			}
+		}
 	}
 
 //	void launchBullet () {
@@ -348,7 +455,7 @@ class GameController {
 //		//        //printStringToConsole("Enemy "+to_string(enemyNo)+"("+to_string(enemy.getX())+","+to_string(enemy.getY())+")");
 //		//        enemy.setSpawnTimerCounter(0);
 //		//        resetIndexInBoard(prevX,prevY);
-//		//        if(enemy.IsAlive())setIndexInBoard(enemy.getX(),enemy.getY()); // no need to display if dead
+//		//        if(enemy.isAlive())setIndexInBoard(enemy.getX(),enemy.getY()); // no need to display if dead
 //		//        //printStringToConsole("\n\n");
 //		//        displayBoardDebug();
 //
