@@ -1,6 +1,4 @@
-//
-// Created by hp on 8/16/2019.
-//
+
 
 #ifndef ARCADESHOOTER_POSITION_H
 #define ARCADESHOOTER_POSITION_H

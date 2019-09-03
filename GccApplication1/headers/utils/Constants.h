@@ -7,7 +7,7 @@ const static char BOARD_Y_PORT ='B';
 
 //const static int DEBUG = 1;
 const static int BOARD_WIDTH = 8;
-const static int BOARD_HEIGHT = 8;
+const static int BOARD_HEIGHT = 16;
 
 //const static unsigned int DEBUG = 1;
 const static unsigned int BULLET_POOL_SIZE = 20;

@@ -28,7 +28,7 @@ class GameController {
 	Enemy enemyPool[ENEMY_POOL_SIZE];
 
 	 int getRandomBoardXCordinate() {
-		 	return rand() % 8;
+		 	return rand() % BOARD_WIDTH;
 	}
 
 	
@@ -137,7 +137,7 @@ class GameController {
             if(newY == -1) {
 				if(newBullet.IsAlive()) resetIndexInBoard(prevX, prevY);
                 newBullet.setIsAlive(false);
-                newY = 7;
+                newY = BOARD_HEIGHT - 1;
             }
 
             newBullet.setBulletPosition(newX, newY);

@@ -72,17 +72,20 @@ public:
 		// PORTB = 0xAA;
     }
 	
+	//point by point scan
 	static void displayBoardMatrixBackup(int board[BOARD_HEIGHT][BOARD_WIDTH])
 	  {
 		  int rows = BOARD_HEIGHT, cols = BOARD_WIDTH;
+		  
 		  for (int i = 0; i < rows; i++)
 		  {
 			  for (int j = 0; j < cols; j++)
 			  {
 				  if (board[i][j])
 				  {
-					  ledPrint(j, 'B', i, 'A');
-					  //ledPrint(j, 'B', i, 'A');
+					//   ledPrint(j, 'B', i, 'A');  Moving to decoder printing
+					//   //ledPrint(j, 'B', i, 'A');
+					ledPrintUsingDecoderOnPortA(j,i);
 					  _delay_us(100);
 				  }
 			  }
