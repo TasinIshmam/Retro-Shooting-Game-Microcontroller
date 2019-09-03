@@ -85,7 +85,7 @@ public:
 				  {
 					//   ledPrint(j, 'B', i, 'A');  Moving to decoder printing
 					//   //ledPrint(j, 'B', i, 'A');
-					ledPrintUsingDecoderOnPortA(j,i, "A");
+					ledPrintUsingDecoder(j,i, 'A');
 					  _delay_us(100);
 				  }
 			  }
