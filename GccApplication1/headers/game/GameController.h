@@ -5,6 +5,7 @@
 
 #include "../utils/LogUtils.cpp"
 #include "../utils/Constants.h"
+#include "../utils/HardwareController.h"
 #include "Position.h"
 #include "Player.h"
 #include "Enemy.h"
@@ -385,19 +386,6 @@ class GameController {
 		
 		return false;
 	}
-	
-	char* getScoreString(){
-		
-		
-	//todo: score logic needs to be updated	
-	itoa (enemyBulletCollisionCounter,score1,10);
-	itoa (enemyPlayerCollisionCounter,score2,10);
-		
-	strcat(score1,score2);
-		
-	return score1;
-		 	
-	}
 
 	// for all objects, check for collision, update collision count and reset boards
 	void updateBasedOnCollisions() {
@@ -424,6 +412,36 @@ class GameController {
 				enemyPool[enemyCounter].setIsAlive(false);
 			}
 		}
+	}
+	
+	char* getScoreString(){
+		//todo: score logic needs to be updated
+		itoa (enemyBulletCollisionCounter,score1,10);
+		itoa (enemyPlayerCollisionCounter,score2,10);
+		strcat(score1,score2);
+		
+		return score1;
+		
+	}
+	
+	// updates the values showed in the LCD display.
+	// should be called after updatBased on collisions has been called.
+	void updateLcdDisplay() {
+		
+		HardwareController::displayLcdUpper(getScoreString());
+		
+		char healthStatus[16];
+		if (enemyPlayerCollisionCounter < 5) {
+			strcpy(healthStatus, "Great health!");
+		} else if (enemyPlayerCollisionCounter < 10) {
+			strcpy(healthStatus, "Good health!");
+		} else if (enemyPlayerCollisionCounter < 15) {
+			strcpy(healthStatus, "Critical health :(");
+		} else {
+			strcpy(healthStatus, "Dead :'(");
+		}
+		
+		HardwareController::displayLcdLower(healthStatus);
 	}
 
 //	void launchBullet () {

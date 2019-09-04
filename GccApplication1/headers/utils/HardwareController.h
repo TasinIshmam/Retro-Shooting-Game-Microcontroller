@@ -87,17 +87,19 @@ public:
 					//   ledPrint(j, 'B', i, 'A');  Moving to decoder printing
 					//   //ledPrint(j, 'B', i, 'A');
 					ledPrintUsingDecoder(j,i, 'A');
-					  _delay_us(delay);
-				  }
-			  }
-		  }
-	 }
+					_delay_us(delay);
+				}
+			}
+		}
+	}
+	 
 	static void displayLcdUpper(char * str){
 		Lcd4_Clear();
 		Lcd4_Set_Cursor(1, 0);
 		Lcd4_Write_String(str);
 		_delay_us(delay);	 	
 	}
+	
 	static void displayLcdLower(char * str){
 		Lcd4_Clear();
 		Lcd4_Set_Cursor(2, 0);
