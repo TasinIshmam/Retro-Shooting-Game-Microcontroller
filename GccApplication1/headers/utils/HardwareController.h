@@ -20,6 +20,7 @@
 #include "LCD.h"
 /** ** **/
 
+#define delay 100
 
 class HardwareController
 {
@@ -86,17 +87,24 @@ public:
 					//   ledPrint(j, 'B', i, 'A');  Moving to decoder printing
 					//   //ledPrint(j, 'B', i, 'A');
 					ledPrintUsingDecoder(j,i, 'A');
-					  _delay_us(100);
+					  _delay_us(delay);
 				  }
 			  }
 		  }
 	 }
-	static void displayLcd(char * str){
+	static void displayLcdUpper(char * str){
 		Lcd4_Clear();
 		Lcd4_Set_Cursor(1, 0);
 		Lcd4_Write_String(str);
-		//TODO: possible delay	 	
+		_delay_us(delay);	 	
 	}
+	static void displayLcdLower(char * str){
+		Lcd4_Clear();
+		Lcd4_Set_Cursor(2, 0);
+		Lcd4_Write_String(str);
+		_delay_us(delay);
+	}
+	
 	
 	/* static void gyroLoop(){
 		gyroLibLoop();

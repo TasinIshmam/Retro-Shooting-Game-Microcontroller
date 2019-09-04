@@ -26,7 +26,7 @@ void loop(unsigned loopNo) {
 	gameController.updateBasedOnCollisions();
 	
 	HardwareController::displayBoardMatrixBackup(gameController.displayBoard);
-	HardwareController::displayLcd(gameController.getScoreString());
+	HardwareController::displayLcdUpper(gameController.getScoreString());
 }
 
 int main() {
