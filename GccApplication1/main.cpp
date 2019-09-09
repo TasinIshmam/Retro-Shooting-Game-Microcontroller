@@ -24,7 +24,7 @@ void loop(unsigned loopNo) {
 	gameController.shootNewBullet();
 	gameController.updateNewBulletPositions();
 	gameController.updateBasedOnCollisions();
-	gameController.updateLcdDisplay();
+	//gameController.updateLcdDisplay();
 	
 	HardwareController::displayBoardMatrixBackup(gameController.displayBoard);
 }

@@ -37,24 +37,31 @@ void ledPrint(char x, char portX, char y, char portY)
     }
 }
 
-
 //port A has 8 bits
 //DC R3 R2 R1 R0 c2 c1 c0s
 //7  6  5  4  3  2  1  0   -> Bit number of portA.
- 
- //x goes to 8 to 3 decoder
- //y goes to 16 to 4 decoder
-void ledPrintUsingDecoder(char x, char y, char portName) {
-  
+
+//x goes to 8 to 3 decoder
+//y goes to 16 to 4 decoder
+void ledPrintUsingDecoder(char x, char y, char portName)
+{
+
     if (x < 0 || y < 0)
-        { 
-            return; 
-        }
+    {
+        return;
+    }
+	PORTB = 0xFF;
+	PORTA = 0x00;
+	
+	
+    PORTB = ~(1 << x);
+    PORTA = y << 3;
+    /**
+
     char newY = y << 3;
 
     char res = newY | x;
-  
-
+    
     switch (portName)
     {
     case 'A':
@@ -70,4 +77,5 @@ void ledPrintUsingDecoder(char x, char y, char portName) {
         PORTD = res;
         break;
     }
+**/
 }
