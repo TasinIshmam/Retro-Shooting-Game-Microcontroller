@@ -126,7 +126,6 @@ public:
 		Lcd4_Clear();
 		Lcd4_Set_Cursor(1, 0);
 		Lcd4_Write_String(str);
-		_delay_us(delay);
 	}
 
 	static void displayLcdLower(char *str)
@@ -134,7 +133,6 @@ public:
 		Lcd4_Clear();
 		Lcd4_Set_Cursor(2, 0);
 		Lcd4_Write_String(str);
-		_delay_us(delay);
 	}
 	
 	//00 = calibratomg ,01 = right, 10 = left, 11 = nothing
