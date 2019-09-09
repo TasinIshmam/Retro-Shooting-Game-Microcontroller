@@ -19,6 +19,7 @@ class GameController {
 	unsigned int enemyBulletCollisionCounter ;
 	unsigned int enemyPlayerCollisionCounter ;
 	char* score1,*score2;	
+	bool bulletReadyToShoot;
 	
 	Player player;
 	//Enemy enemy1, enemy2, enemy3;
@@ -183,6 +184,7 @@ class GameController {
 
 	enemyBulletCollisionCounter = 0;
 	enemyPlayerCollisionCounter = 0;
+	bulletReadyToShoot = true;
 	
 	score1 = (char *)malloc(4*sizeof(char));
 	score2 = (char *)malloc(4*sizeof(char));
@@ -334,15 +336,30 @@ class GameController {
 	}
 
 	void shootNewBullet() {
-		if(loopNo % BULLET_SPAWN_TIME == 0) {
+		
+
+		
 			for(int i = 0; i < BULLET_POOL_SIZE; i++) {
 			if(bulletPool[i].IsAlive() == false) {
 				activeBulletForShooting(bulletPool[i]);
+				bulletReadyToShoot = false;
 				return;
 			}
 		}
+	
 	}
-}
+
+
+	void bulletPoll() {
+
+		if(loopNo % BULLET_SHOOT_DELAY == 0) {
+			bulletReadyToShoot = true;
+		}
+
+		if(bulletReadyToShoot && HardwareController::isShootButtonPressed()) {
+			shootNewBullet();
+		}
+	}
 
 	void initEnemyPositions(){
 		//setIndexInBoard(enemy1.getX(),enemy1.getY(),ENEMY_STATUS_IN_BOARD);

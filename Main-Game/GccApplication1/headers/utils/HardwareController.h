@@ -71,7 +71,7 @@ public:
 	static void hardWareSetup()
 	{
 		//LED MATRIX OUTPUT
-		DDRA = 0b11111100;
+		DDRA = 0b11111000;
 		DDRB = 255;
 		//LCD DISPLAY
 		DDRD = 0xFF;
@@ -129,6 +129,13 @@ public:
 		Lcd4_Write_String(upper);
 		Lcd4_Set_Cursor(2, 0);
 		Lcd4_Write_String(lower);
+	}
+
+	static bool isShootButtonPressed() {
+		char res = PINA;
+		res = PINA & 0b00000100;
+
+		return res; 
 	}
 	
 	//00 = calibratomg ,01 = right, 10 = left, 11 = nothing
