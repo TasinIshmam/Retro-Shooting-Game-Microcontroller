@@ -77,6 +77,7 @@ public:
 		DDRD = 0xFF;
 		DDRC = 0xFF;
 		Lcd4_Init();
+		displayLcd("Score: 0","Health Full");
 
 		// MCUCSR = (1<<JTD);
 		// MCUCSR = (1<<JTD);// We need to do this twice in order to use PORTC directly for IO
@@ -121,18 +122,13 @@ public:
 		}
 	}
 
-	static void displayLcdUpper(char *str)
+	static void displayLcd(char * upper,char * lower)
 	{
 		Lcd4_Clear();
 		Lcd4_Set_Cursor(1, 0);
-		Lcd4_Write_String(str);
-	}
-
-	static void displayLcdLower(char *str)
-	{
-		Lcd4_Clear();
+		Lcd4_Write_String(upper);
 		Lcd4_Set_Cursor(2, 0);
-		Lcd4_Write_String(str);
+		Lcd4_Write_String(lower);
 	}
 	
 	//00 = calibratomg ,01 = right, 10 = left, 11 = nothing

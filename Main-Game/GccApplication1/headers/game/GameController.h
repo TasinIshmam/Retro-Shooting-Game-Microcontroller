@@ -399,8 +399,6 @@ class GameController {
 	// should be called after updatBased on collisions has been called.
 	void updateLcdDisplay() {
 		
-		HardwareController::displayLcdUpper(getScoreString());
-		
 		char healthStatus[16];
 		if (enemyPlayerCollisionCounter < 5) {
 			strcpy(healthStatus, "Great health!");
@@ -412,7 +410,7 @@ class GameController {
 			strcpy(healthStatus, "Dead :'(");
 		}
 		
-		HardwareController::displayLcdLower(healthStatus);
+		HardwareController::displayLcd(getScoreString(),healthStatus);
 	}
 
 	// for all objects, check for collision, update collision count and reset boards
@@ -589,7 +587,7 @@ class GameController {
 			if(movement == GYRO_MOVE_LEFT) {
 				shiftPlayerLeft(1);
 				player.setIsReadyToMove(false);
-			} else {
+			} else if(movement == GYRO_MOVE_RIGHT) {
 				shiftPlayerRight(1);
 				player.setIsReadyToMove(false);
 			}
