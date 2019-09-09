@@ -13,9 +13,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-const int PLAYER_STATUS_IN_BOARD = 1;
-const int ENEMY_STATUS_IN_BOARD = 2;
-const int BULLET_STATUS_IN_BOARD = 3;
 
 class GameController {
 	

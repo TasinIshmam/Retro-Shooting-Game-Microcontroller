@@ -18,6 +18,7 @@
 #define RS eS_PORTC6
 #define EN eS_PORTC7
 #include "LCD.h"
+#include "Constants.h"
 /** ** **/
 
 #define delay 100
@@ -52,7 +53,7 @@ public:
 	{
 		//LED MATRIX OUTPUT
 		DDRA = 255;
-		DDRB = 255;
+		DDRB = 0b11111100;
 		//LCD DISPLAY
 		DDRD = 0xFF;
 		DDRC = 0xFF;
@@ -82,7 +83,13 @@ public:
 				{
 					//   ledPrint(j, 'B', i, 'A');  Moving to decoder printing
 					//   //ledPrint(j, 'B', i, 'A');
-					ledPrintUsingDecoder(j, i, 'A');
+					
+					if(board[i][j] == ENEMY_STATUS_IN_BOARD) {
+					ledPrintUsingDecoder(j, i, 'A','R');
+					} else {
+						ledPrintUsingDecoder(j, i, 'A','G');
+					}
+					
 					//ledPrintUsingDecoder(6, 13, 'A');
 					_delay_us(delay);
 					//ledPrintUsingDecoder(3, 4, 'A');
@@ -106,6 +113,17 @@ public:
 		Lcd4_Set_Cursor(2, 0);
 		Lcd4_Write_String(str);
 		_delay_us(delay);
+	}
+
+	int getGyroReading() {
+		char rawInput = PINB; 
+
+		char inputLSB = PINB ;
+
+		return 5;
+
+
+
 	}
 
 	/* static void gyroLoop(){

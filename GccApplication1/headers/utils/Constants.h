@@ -19,6 +19,11 @@ const static unsigned int ENEMY_POOL_SIZE = 3;
 // const static unsigned int ENEMY2_MOVE_TIME = 1500;
 // const static unsigned int ENEMY3_MOVE_TIME = 1800;
 
+
+const static int PLAYER_STATUS_IN_BOARD = 1;
+const static int ENEMY_STATUS_IN_BOARD = 2;
+const static int BULLET_STATUS_IN_BOARD = 3;
+
 const static unsigned int ENEMY_MOVE_TIME_NEW = 600;
 const static unsigned int ENEMY_SPAWN_TIME_NEW = 5000;
 
@@ -26,10 +31,12 @@ const static unsigned int ENEMY_SPAWN_TIME_NEW = 5000;
 const static unsigned int BULLET_MOVE_TIME = 300;
 const static unsigned int BULLET_SPAWN_TIME = 1500;
 
+
 const static unsigned int BULLET_SHOOT_DELAY = 2500;//5500;
 const static unsigned int BULLET_INIT_TIME = 500;
 
 const static unsigned int PLAYER_MOVE_SPEED = 2700;
+const static unsigned int PLAYER_MOVE_SPEED_GYRO = 1300;
 
 
 
