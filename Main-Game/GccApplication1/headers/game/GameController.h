@@ -20,6 +20,7 @@ class GameController {
 	unsigned int enemyPlayerCollisionCounter ;
 	char* score1,*score2;	
 	bool bulletReadyToShoot;
+	int buzzerToggle; 
 	
 	Player player;
 	//Enemy enemy1, enemy2, enemy3;
@@ -185,7 +186,8 @@ class GameController {
 	enemyBulletCollisionCounter = 0;
 	enemyPlayerCollisionCounter = 0;
 	bulletReadyToShoot = true;
-	
+	buzzerToggle = 0;
+
 	score1 = (char *)malloc(4*sizeof(char));
 	score2 = (char *)malloc(4*sizeof(char));
 	
@@ -219,6 +221,26 @@ class GameController {
 		GameController::loopNo = loopNo;
 	}
 
+	void updateBuzzerToggle() {
+		if (buzzerToggle) {
+			buzzerToggle--;
+			if (buzzerToggle == 0) {
+				HardwareController::disableBuzzer();
+			} else {
+				HardwareController::enableBuzzer();
+			}
+		}
+	}
+	
+	int max(int a, int b) {
+		return a > b ? a : b;
+	}
+
+
+	void enableBuzzer(int loopInstances){
+		buzzerToggle = max(buzzerToggle, loopInstances);
+	}
+
 	void displayBoardDebug() {
 
 		//string divider = "------------------------------------------------------------------";
@@ -232,31 +254,15 @@ class GameController {
 		}
 	}
 
-	bool checkIfConflict(int x, int y) {
-		if (displayBoard[x][y] == 1) {
-			//todo add conflict resolution logic
-
-			//string printString =
-			//       "Conflict detected. Some object already in position (" + to_string(x) + "," + to_string(y) + ")\n";
-			return true;
-
-		}
-		return false;
-	}
-
-
 	void setIndexInBoard(int x, int y) {
-		checkIfConflict(x, y);
 		displayBoard[y][x] = 1;
 	}
 
 	void setIndexInBoard(int x, int y,int val) {
-		checkIfConflict(x, y);
 		displayBoard[y][x] = val;
 	}
 
 	void resetIndexInBoard(int x, int y) {
-		checkIfConflict(x, y);
 		displayBoard[y][x] = 0;
 	}
 
@@ -342,6 +348,7 @@ class GameController {
 			for(int i = 0; i < BULLET_POOL_SIZE; i++) {
 			if(bulletPool[i].IsAlive() == false) {
 				activeBulletForShooting(bulletPool[i]);
+				enableBuzzer(SHOOTING_BUZZER_LOOP_CNT);
 				bulletReadyToShoot = false;
 				return;
 			}
@@ -458,6 +465,11 @@ class GameController {
 				enemyPool[enemyCounter].setIsAlive(false);
 			}
 		}
+
+		if (lastEnemyBulletCollisionCounter != enemyBulletCollisionCounter)
+			enableBuzzer(ENEMY_BULLET_CONFLICT_BUZZER_LOOP_CNT);
+		if (lastEnemyPlayerCollisionCounter != enemyPlayerCollisionCounter)
+			enableBuzzer(ENEMY_PLAYER_CONFLICT_BUZZER_LOOP_CNT);	
 		
 		if (lastEnemyPlayerCollisionCounter != enemyPlayerCollisionCounter 
 			|| lastEnemyBulletCollisionCounter != enemyBulletCollisionCounter) {

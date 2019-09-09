@@ -1,9 +1,8 @@
-
 #ifndef ARCADESHOOTER_CONSTANTS
 #define ARCADESHOOTER_CONSTANTS
 
-const static char BOARD_X_PORT ='A';
-const static char BOARD_Y_PORT ='B';
+const static char BOARD_X_PORT = 'A';
+const static char BOARD_Y_PORT = 'B';
 
 //const static int DEBUG = 1;
 const static int BOARD_WIDTH = 8;
@@ -44,7 +43,8 @@ const static unsigned int GYRO_MOVE_LEFT = 2;
 const static unsigned int GYRO_STAY_STILL = 3;
 const static unsigned int GYRO_INVALID = 5;
 
-
-
+const static unsigned int SHOOTING_BUZZER_LOOP_CNT = 10;
+const static unsigned int ENEMY_BULLET_CONFLICT_BUZZER_LOOP_CNT = 20;
+const static unsigned int ENEMY_PLAYER_CONFLICT_BUZZER_LOOP_CNT = 30;
 
 #endif //ARCADESHOOTER_CONSTANTS

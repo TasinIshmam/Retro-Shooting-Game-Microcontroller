@@ -81,7 +81,7 @@ void ledPrintUsingTwoDecoder(char x, char y, char portName, char color)
 
 }
 
-void voidLedPrintUsingOneDecoder(char x, char y) {
+void printLedMatrixUsingOneDecoder(char x, char y) {
      if (x < 0 || y < 0)
     {
         return;
