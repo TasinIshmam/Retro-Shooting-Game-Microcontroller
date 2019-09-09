@@ -43,7 +43,7 @@ void ledPrint(char x, char portX, char y, char portY)
 
 //x goes to 16 to 4 column decoder
 //y goes to 16 to 4 row decoder
-void ledPrintUsingDecoder(char x, char y, char portName, char color)
+void ledPrintUsingTwoDecoder(char x, char y, char portName, char color)
 {
 
     if (x < 0 || y < 0)
@@ -78,5 +78,24 @@ void ledPrintUsingDecoder(char x, char y, char portName, char color)
         PORTD = res;
         break;
     }
+
+}
+
+void voidLedPrintUsingOneDecoder(char x, char y) {
+     if (x < 0 || y < 0)
+    {
+        return;
+    }
+
+
+    char newY = y << 4;
+
+    char res = newY ;
+
+    PORTB = ~(1 << x);
+    PORTA = res | 0x00;
+
+
+
 
 }

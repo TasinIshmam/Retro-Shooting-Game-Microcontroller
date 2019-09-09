@@ -21,6 +21,7 @@ void loop(unsigned loopNo) {
 	gameController.setLoopNo(loopNo);
 	gameController.updateEnemyPositions();
 	gameController.simulateRandomPlayerMovements();
+	// gameController.playerMovementUpdateWithGyro();  //turn on and comment out simulate when ready to connect gyro.
 	gameController.shootNewBullet();
 	gameController.updateNewBulletPositions();
 	gameController.updateBasedOnCollisions();

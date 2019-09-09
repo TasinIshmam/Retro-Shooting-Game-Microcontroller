@@ -566,6 +566,28 @@ class GameController {
 
 	}
 
+	void playerMovementUpdateWithGyro() {
+
+		if(loopNo % PLAYER_MOVE_SPEED_GYRO == 0) {
+			player.setIsReadyToMove(true);
+		}
+
+
+		if(player.isReadyToMove()) {
+			int movement = HardwareController::getGyroReading();
+
+			if(movement == GYRO_MOVE_LEFT) {
+				shiftPlayerLeft(1);
+				player.setIsReadyToMove(false);
+			} else {
+				shiftPlayerRight(1);
+				player.setIsReadyToMove(false);
+			}
+		}
+	}
+
+
+
 
 };
 

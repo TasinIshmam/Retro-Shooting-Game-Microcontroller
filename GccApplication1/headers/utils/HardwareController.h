@@ -49,11 +49,30 @@ public:
 		}
 	}
 
+	static int getGyroReading() {
+		char rawInput = PINA; 
+
+		char inputLSB = rawInput & 0b00000011 ;
+		
+
+		switch(inputLSB) {
+			case 0: return GYRO_CALIBRATING;
+			case 1: return GYRO_MOVE_RIGHT;
+			case 2: return GYRO_MOVE_LEFT;
+			case 3: return GYRO_STAY_STILL;
+			default: return GYRO_INVALID;
+		}
+		
+
+		 
+
+	}
+
 	static void hardWareSetup()
 	{
 		//LED MATRIX OUTPUT
-		DDRA = 255;
-		DDRB = 0b11111100;
+		DDRA = 0b11111100;
+		DDRB = 255;
 		//LCD DISPLAY
 		DDRD = 0xFF;
 		DDRC = 0xFF;
@@ -84,11 +103,14 @@ public:
 					//   ledPrint(j, 'B', i, 'A');  Moving to decoder printing
 					//   //ledPrint(j, 'B', i, 'A');
 					
-					if(board[i][j] == ENEMY_STATUS_IN_BOARD) {
-					ledPrintUsingDecoder(j, i, 'A','R');
-					} else {
-						ledPrintUsingDecoder(j, i, 'A','G');
-					}
+					// if(board[i][j] == ENEMY_STATUS_IN_BOARD) {
+					// ledPrintUsingTwoDecoder(j, i, 'A','R');
+					// } else {
+					// 	ledPrintUsingTwoDecoder(j, i, 'A','G');
+					// }
+
+					voidLedPrintUsingOneDecoder(j,i);
+
 					
 					//ledPrintUsingDecoder(6, 13, 'A');
 					_delay_us(delay);
@@ -114,17 +136,10 @@ public:
 		Lcd4_Write_String(str);
 		_delay_us(delay);
 	}
+	
+	//00 = calibratomg ,01 = right, 10 = left, 11 = nothing
 
-	int getGyroReading() {
-		char rawInput = PINB; 
-
-		char inputLSB = PINB ;
-
-		return 5;
-
-
-
-	}
+	
 
 	/* static void gyroLoop(){
 		gyroLibLoop();

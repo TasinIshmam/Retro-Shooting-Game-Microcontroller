@@ -38,6 +38,13 @@ const static unsigned int BULLET_INIT_TIME = 500;
 const static unsigned int PLAYER_MOVE_SPEED = 2700;
 const static unsigned int PLAYER_MOVE_SPEED_GYRO = 1300;
 
+const static unsigned int GYRO_CALIBRATING = 0;
+const static unsigned int GYRO_MOVE_RIGHT = 1;
+const static unsigned int GYRO_MOVE_LEFT = 2;
+const static unsigned int GYRO_STAY_STILL = 3;
+const static unsigned int GYRO_INVALID = 5;
+
+
 
 
 #endif //ARCADESHOOTER_CONSTANTS
