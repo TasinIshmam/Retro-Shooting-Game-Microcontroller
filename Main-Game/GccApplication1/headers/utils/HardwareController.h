@@ -79,15 +79,7 @@ public:
 		Lcd4_Init();
 		displayLcd("Score: 0","Health Full");
 
-		// MCUCSR = (1<<JTD);
-		// MCUCSR = (1<<JTD);// We need to do this twice in order to use PORTC directly for IO
-
-		//Gyro
-		// DDRA = 0xFF;
-		// DDRB = 0xFF;
-
-		// PORTA = 0xAA;
-		// PORTB = 0xAA;
+	
 	}
 
 	//point by point scan
@@ -104,19 +96,17 @@ public:
 					//   ledPrint(j, 'B', i, 'A');  Moving to decoder printing
 					//   //ledPrint(j, 'B', i, 'A');
 					
-					// if(board[i][j] == ENEMY_STATUS_IN_BOARD) {
-					// ledPrintUsingTwoDecoder(j, i, 'A','R');
-					// } else {
-					// 	ledPrintUsingTwoDecoder(j, i, 'A','G');
-					// }
-
-					voidLedPrintUsingOneDecoder(j,i);
+					 if(board[i][j] == ENEMY_STATUS_IN_BOARD) {
+						ledPrintUsingTwoDecoder(j, i,'R');
+					 } else {
+					 	ledPrintUsingTwoDecoder(j, i,'G');
+					 }
 
 					
-					//ledPrintUsingDecoder(6, 13, 'A');
-					_delay_us(delay);
 					//ledPrintUsingDecoder(3, 4, 'A');
-					//_delay_us(delay);
+					_delay_us(delay);
+					
+					
 				}
 			}
 		}

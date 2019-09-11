@@ -24,8 +24,7 @@ void loop(unsigned loopNo) {
 	gameController.playerMovementUpdateWithGyro();  //turn on and comment out simulate when ready to connect gyro.
 	gameController.bulletPoll();
 	gameController.updateNewBulletPositions();
-	gameController.updateBasedOnCollisions();
-	//gameController.updateLcdDisplay();
+	gameController.updateBasedOnCollisions();//includes LCD updates
 	
 	HardwareController::displayBoardMatrixBackup(gameController.displayBoard);
 }
