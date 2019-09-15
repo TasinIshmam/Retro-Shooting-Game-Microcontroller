@@ -18,7 +18,10 @@ class GameController {
 	
 	unsigned int enemyBulletCollisionCounter ;
 	unsigned int enemyPlayerCollisionCounter ;
+	unsigned int killStreak;
+	bool gameActive;
 	char* score1,*score2;	
+	char* comboStreak;
 	bool bulletReadyToShoot;
 	
 	Player player;
@@ -28,6 +31,39 @@ class GameController {
 
 	 int getRandomBoardXCordinate() {
 		 	return rand() % BOARD_WIDTH;
+	}
+	void resetAllIndexInBoard(){
+		int rows = BOARD_HEIGHT, cols = BOARD_WIDTH;
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < cols; j++) {
+				displayBoard[i][j] = 0;
+			}
+		}
+	}
+	
+
+	void initiateGameOver() {
+		gameActive = false;
+		resetAllIndexInBoard();
+		HardwareController::displayLcd("Game Over", "Play Again :)");
+		setIndexInBoard(1,3);
+		setIndexInBoard(2,3);
+
+		setIndexInBoard(5,3);
+		setIndexInBoard(6,3);
+		
+		setIndexInBoard(3,6);
+		setIndexInBoard(4,6);
+		setIndexInBoard(3,7);
+		setIndexInBoard(4,7);
+		
+		setIndexInBoard(3,9);
+		setIndexInBoard(4,9);
+		setIndexInBoard(2,10);
+		setIndexInBoard(5,10);
+		setIndexInBoard(1,11);
+		setIndexInBoard(6,11);
+
 	}
 
 	
@@ -148,26 +184,16 @@ class GameController {
 	public:
 	int displayBoard[BOARD_HEIGHT][BOARD_WIDTH];
 
-
+bool isGameActive() {
+	return gameActive;
+}
 
 	GameController() {
-		// enemy1 = Enemy(ENEMY1_INIT_TIME,0,0);
-		// enemy2 = Enemy(ENEMY2_INIT_TIME,1,0);
-		// enemy3 = Enemy(ENEMY3_INIT_TIME,2,0);
-//
-//		bullet1 = Bullet(0,0, false);
-//		bullet2 = Bullet(0,0, false);
-//		bullet3 = Bullet(0,0, false);
-//		bullet4 = Bullet(0,0, false);
-
-    //    newBullet1 = NewBullet(0, 0,0);
-    //    newBullet2 = NewBullet(2000, 0,0);
-    //    newBullet3 = NewBullet(4000, 0,0);
-    //    newBullet4 = NewBullet(6000, 0,0);
-
+	killStreak = 0;
 	enemyBulletCollisionCounter = 0;
 	enemyPlayerCollisionCounter = 0;
 	bulletReadyToShoot = true;
+	gameActive = true;
 	
 	char score1[16], score2[16];
 	
@@ -175,18 +201,16 @@ class GameController {
 		enemyPool[i] = Enemy(i * 500, getRandomBoardXCordinate() , 0);
 	}
 
+	for(int i = 0; i < BULLET_POOL_SIZE; i++) {
+		bulletPool[i] = NewBullet(0,0,0);
+	}
 
-	    for(int i = 0; i < BULLET_POOL_SIZE; i++) {
-		    bulletPool[i] = NewBullet(0,0,0);
-	    }
-
-
-		int rows = BOARD_HEIGHT, cols = BOARD_WIDTH;
-		for (int i = 0; i < rows; i++) {
-			for (int j = 0; j < cols; j++) {
-				displayBoard[i][j] = 0;
-			}
+	int rows = BOARD_HEIGHT, cols = BOARD_WIDTH;
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			displayBoard[i][j] = 0;
 		}
+	}
 	}
 
 	int getLoopNo() const {
@@ -375,7 +399,6 @@ class GameController {
 		return false;
 	}
 	
-	
 	char* getScoreString(){
 		
 		// adding number of kills
@@ -398,22 +421,38 @@ class GameController {
 		return score1;
 	}
 	
+	
 	// updates the values showed in the LCD display.
 	// should be called after updatBased on collisions has been called.
+	//health
 	void updateLcdDisplay() {
 		
 		char healthStatus[16];
-		if (enemyPlayerCollisionCounter < 5) {
-			strcpy(healthStatus, "Great health!");
-			} else if (enemyPlayerCollisionCounter < 10) {
-			strcpy(healthStatus, "Good health!");
-			} else if (enemyPlayerCollisionCounter < 15) {
-			strcpy(healthStatus, "Critical health :(");
-			} else {
-			strcpy(healthStatus, "Dead :'(");
+
+		    char comboString[16], tempString[16];
+
+
+
+
+		if(killStreak > 0 && killStreak % 5 == 0) {
+
+			
+			strcpy(comboString, "Combo:");
+		itoa (killStreak,tempString,10);
+
+		char temp[4] = "   ";
+		for (int i = 0; i < strlen(tempString); i++) {
+			temp[i] = tempString[i];
 		}
+
+		strcat(comboString, temp);
+		} else {
+			strcpy(comboString, "Enemy spotted");
+		}
+
+
 		
-		HardwareController::displayLcd(getScoreString(), healthStatus);
+		HardwareController::displayLcd(getScoreString(), comboString);
 	}
 
 	// for all objects, check for collision, update collision count and reset boards
@@ -427,7 +466,7 @@ class GameController {
 			for (unsigned int bulletCounter = 0; bulletCounter < BULLET_POOL_SIZE; bulletCounter++) {
 				if (doesCollide(enemyPool[enemyCounter], bulletPool[bulletCounter])) {
 					enemyBulletCollisionCounter++;
-					
+					killStreak++;
 					const Position position = enemyPool[enemyCounter].getEnemyPosition();
 					resetIndexInBoard(position.getX(), position.getY());
 					
@@ -441,7 +480,15 @@ class GameController {
 		for (unsigned int enemyCounter = 0; enemyCounter < ENEMY_POOL_SIZE; enemyCounter++) {
 			if (doesCollide(enemyPool[enemyCounter])) {
 				enemyPlayerCollisionCounter++;
+				
+				
+				killStreak = 0;
 				enemyPool[enemyCounter].setIsAlive(false);
+
+				if(enemyPlayerCollisionCounter == 5) {
+					initiateGameOver();
+					return;
+				}
 			}
 		}
 		

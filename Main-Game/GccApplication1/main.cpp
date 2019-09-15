@@ -19,15 +19,19 @@ void setup() {
 
 
 void loop(unsigned loopNo) {
-	gameController.setLoopNo(loopNo);
-	gameController.updateEnemyPositions();
-	//gameController.simulateRandomPlayerMovements();
-	gameController.playerMovementUpdateWithGyro();  //turn on and comment out simulate when ready to connect gyro.
-	gameController.bulletPoll();
-	gameController.updateNewBulletPositions();
-	gameController.updateBasedOnCollisions();//includes LCD updates
-	
+
+	if(gameController.isGameActive()) {
+		gameController.setLoopNo(loopNo);
+		gameController.updateEnemyPositions();
+		//gameController.simulateRandomPlayerMovements();
+		gameController.playerMovementUpdateWithGyro();  //turn on and comment out simulate when ready to connect gyro.
+		gameController.bulletPoll();
+		gameController.updateNewBulletPositions();
+		gameController.updateBasedOnCollisions();//includes LCD updates
+	}
 	HardwareController::displayBoardMatrixBackup(gameController.displayBoard);
+
+
 }
 
 int main() {
