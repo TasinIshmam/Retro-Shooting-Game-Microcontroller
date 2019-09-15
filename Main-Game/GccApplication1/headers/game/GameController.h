@@ -481,9 +481,19 @@ bool isGameActive() {
 			if (doesCollide(enemyPool[enemyCounter])) {
 				enemyPlayerCollisionCounter++;
 				
-				
 				killStreak = 0;
+				
+				// removing the enemy from the board
 				enemyPool[enemyCounter].setIsAlive(false);
+				const int dx[] = {0, 0, -1, 1};
+				const int dy[] = {0, -1, 0, 0};
+				
+				const Position player_pos = player.getPlayerPosition();
+				for (int i = 0; i < 4; i++) {
+					int x = player_pos.getX()+dx[i];
+					int y = player_pos.getY()+dy[i];
+					displayBoard[x][y] = PLAYER_STATUS_IN_BOARD;
+				}
 
 				if(enemyPlayerCollisionCounter == 5) {
 					initiateGameOver();
