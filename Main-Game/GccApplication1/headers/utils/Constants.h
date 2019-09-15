@@ -24,7 +24,7 @@ const static int PLAYER_STATUS_IN_BOARD = 1;
 const static int ENEMY_STATUS_IN_BOARD = 2;
 const static int BULLET_STATUS_IN_BOARD = 3;
 
-const static unsigned int ENEMY_MOVE_TIME_NEW = 150;
+const static unsigned int ENEMY_MOVE_TIME_NEW = 300;
 const static unsigned int ENEMY_SPAWN_TIME_NEW = 1500; //3000
 
 

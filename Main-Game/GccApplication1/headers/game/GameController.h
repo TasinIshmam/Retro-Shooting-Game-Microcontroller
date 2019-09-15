@@ -40,13 +40,6 @@ class GameController {
 
 	void updateEnemy(Enemy &enemy) {
 
-		// unsigned int moveTime=0;
-		// if(enemyNo == 1)
-		// moveTime = ENEMY1_MOVE_TIME;
-		// else if(enemyNo == 2)
-		// moveTime = ENEMY2_MOVE_TIME;
-		// else if(enemyNo == 3)moveTime = ENEMY3_MOVE_TIME;
-
 		unsigned int currentTime = enemy.getSpawnTimerCounter();
 		enemy.setSpawnTimerCounter(currentTime + 1);
 
@@ -54,7 +47,9 @@ class GameController {
 			enemy.setSpawnTimerCounter(0);
 
 			if ( !enemy.isAlive() ) {
-				enemy.setEnemyPosition(getRandomBoardXCordinate(), 0);
+				int newX = getRandomBoardXCordinate();
+				if(newX == 3)newX++;
+				enemy.setEnemyPosition(newX, 0);
 				enemy.setIsAlive(true);
 				setIndexInBoard(enemy.getX(), enemy.getY(),2);
 			}
@@ -78,20 +73,8 @@ class GameController {
 		
 		if(enemy.isAlive())	setIndexInBoard(enemy.getX(),enemy.getY(), ENEMY_STATUS_IN_BOARD); // no need to display if dead
 
-			// //printStringToConsole("\n\n");
-			//            displayBoardDebug();
-			//            //printStringToConsole("Enemy moved\n");
 		}
 
-
-
-
-
-
-
-		
-
-		//if(enemy.getY() == 0)enemy.setIsAlive(true); // if enemy goes down the screenbounds
 
 
 	}
@@ -186,11 +169,9 @@ class GameController {
 	enemyPlayerCollisionCounter = 0;
 	bulletReadyToShoot = true;
 	
-	score1 = (char *)malloc(4*sizeof(char));
-	score2 = (char *)malloc(4*sizeof(char));
+	char score1[16], score2[16];
 	
 	for(int i = 0; i < ENEMY_POOL_SIZE; i++) {
-
 		enemyPool[i] = Enemy(i * 500, getRandomBoardXCordinate() , 0);
 	}
 
@@ -200,10 +181,7 @@ class GameController {
 	    }
 
 
-
-
 		int rows = BOARD_HEIGHT, cols = BOARD_WIDTH;
-
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
 				displayBoard[i][j] = 0;
@@ -325,11 +303,7 @@ class GameController {
 
 
     void updateNewBulletPositions() {
-			// updateNewBullet(newBullet1);
-			// updateNewBullet(newBullet2);
-			// updateNewBullet(newBullet3);
-			// updateNewBullet(newBullet4);
-
+			
 		for(int i = 0; i < BULLET_POOL_SIZE; i++) {
 			updateNewBullet(bulletPool[i]);
 		}
@@ -403,12 +377,24 @@ class GameController {
 	
 	
 	char* getScoreString(){
-		//todo: score logic needs to be updated
-		itoa (enemyBulletCollisionCounter,score1,10);
-		itoa (enemyPlayerCollisionCounter,score2,10);
-		strcat(score1, ", ");
-		strcat(score1,score2);
 		
+		// adding number of kills
+		strcpy(score1, "Kills:");
+		itoa (enemyBulletCollisionCounter,score2,10);
+		
+		char temp[4] = "   ";
+		for (int i = 0; i < strlen(score2); i++) {
+			temp[i] = score2[i];
+		}		
+		strcat(score1, temp);
+
+		strcpy(score2,"     ");
+		for (int i = enemyPlayerCollisionCounter; i < 5; i++) {
+		    score2[i] = '+';
+		}
+
+		strcat(score1, score2);
+		        
 		return score1;
 	}
 	
@@ -427,7 +413,7 @@ class GameController {
 			strcpy(healthStatus, "Dead :'(");
 		}
 		
-		HardwareController::displayLcd(getScoreString(),healthStatus);
+		HardwareController::displayLcd(getScoreString(), healthStatus);
 	}
 
 	// for all objects, check for collision, update collision count and reset boards

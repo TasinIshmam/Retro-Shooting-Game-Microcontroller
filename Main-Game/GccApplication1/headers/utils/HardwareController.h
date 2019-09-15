@@ -77,7 +77,7 @@ public:
 		DDRD = 0xFF;
 		DDRC = 0xFF;
 		Lcd4_Init();
-		displayLcd("Score: 0","Health Full");
+		displayLcd("Score: 0", "Health Full");
 
 	
 	}
