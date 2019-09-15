@@ -24,19 +24,19 @@ const static int PLAYER_STATUS_IN_BOARD = 1;
 const static int ENEMY_STATUS_IN_BOARD = 2;
 const static int BULLET_STATUS_IN_BOARD = 3;
 
-const static unsigned int ENEMY_MOVE_TIME_NEW = 400;
-const static unsigned int ENEMY_SPAWN_TIME_NEW = 3000;
+const static unsigned int ENEMY_MOVE_TIME_NEW = 150;
+const static unsigned int ENEMY_SPAWN_TIME_NEW = 1500; //3000
 
 
 const static unsigned int BULLET_MOVE_TIME = 150;
-const static unsigned int BULLET_SPAWN_TIME = 1000;
+const static unsigned int BULLET_SPAWN_TIME = 150;
 
 
-const static unsigned int BULLET_SHOOT_DELAY = 1500;//2500;//5500;
+const static unsigned int BULLET_SHOOT_DELAY = 400;//1500;//5500;
 const static unsigned int BULLET_INIT_TIME = 200;
 
 const static unsigned int PLAYER_MOVE_SPEED = 2700;
-const static unsigned int PLAYER_MOVE_SPEED_GYRO =300; //700;
+const static unsigned int PLAYER_MOVE_SPEED_GYRO = 100; //700;
 
 const static unsigned int GYRO_CALIBRATING = 0;
 const static unsigned int GYRO_MOVE_RIGHT = 1;

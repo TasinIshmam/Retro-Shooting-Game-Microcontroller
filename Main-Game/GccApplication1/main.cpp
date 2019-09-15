@@ -6,7 +6,8 @@ GameController gameController;
 void softwareSetup() {
     gameController = GameController();
     gameController.initializePlayerPosition();
-   // gameController.initEnemyPositions();
+   // gameController.initEnemyPositions();// int x
+    
 }
 
 
