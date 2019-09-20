@@ -26,8 +26,8 @@
 <h2><a name="b_f">A Brief Description</a></h2>
 <hr />
 <p style="font-size:120%">
-In this Project we have designed an embedded system which is used for tracking and positioning of any vehicle by using Global Positioning System (GPS) and Global system for mobile communication (GSM). <br/><br/>
-When the request by user is sent to the number at the modem, the system automatically sends a return reply to that mobile indicating the position of the vehicle.
+In this Project we have designed a space shooting game similar to the ones found in the earlier Nokia phones, where there is a spaceship, controlled by the player. The ship needs to destroy the approaching enemies. In case of a collision with the enemy, it loses some health. After loss of a certain amount of health, the game overs.<br/><br/>
+LED matrix is used to show the game board, and LCD display module is used to show other information. Gyroscope is used to move the ship. Two ATmega32 microprocessors powers the whole system. 
 </p>
 <br/><br/>
 <br/><br/>
@@ -39,16 +39,18 @@ When the request by user is sent to the number at the modem, the system automati
 <p style="font-size:120%">
 <ul>
   <li><p style="font-size:120%">ATmega16 microcontroller</p></li>
-  <li><p style="font-size:120%">GPS/GSM Module and some more things to interface them:
+  <li><p style="font-size:120%">Gyroscope</p></li>
+  <li><p style="font-size:120%">Two 8x8 LED Matrix Module</p></li>
+  <li><p style="font-size:120%">LCD Display Module</p></li>
+  <li><p style="font-size:120%">4 to 16 Decoders</p></li>
+  <li><p style="font-size:120%">And some more things to interface them:
     <ul>
+    <!-- Insert things here -->
     <li><p style="font-size:110%">5V Fixed 1A Positive Power Supply Regulator</p></li>
     <li><p style="font-size:110%">Registors</p></li>
     <li><p style="font-size:110%">Capacitors</p></li>
-    <li><p style="font-size:110%">Diode</p></li>
-    <li><p style="font-size:110%">HEX Schmitt_Triggered Inverters</p></li>
     </ul>
   </li>
-  <li><p style="font-size:120%">MUX</p></li>
 </ul>
 </p>
 <br/><br/>
@@ -59,7 +61,7 @@ When the request by user is sent to the number at the modem, the system automati
 <h2><a name="h_w">How it works?</a></h2>
 <hr />
 <p style="font-size:120%">
-In this project ATmega16 microcontroller is used for interfacing to various hardware peripherals. The current design is an embedded application, which will report the status of the Vehicle on demand. For doing so an ATmega16 microcontroller is interfaced to a GSM Modem and GPS Receiver. A GSM modem is used to send the position of the vehicle from a remote place. This modem continuously waits for a request SMS. If it is from a valid mobile number(checked with the content of the SMS, which means a password),the GPS modem gets activated and it then continuously gives the data i.e. the latitude and longitude indicating the position of the vehicle. The GPS modem gives many parameters as the output, but only the NMEA data coming out is read. Then only the latitude and longitude is converted to find out the name of the location of the vehicle. The converted data including the location name, time etc. is sent to the mobile at the other end from where the position of the vehicle is demanded.
+If you are also a 90's kid like us, you must remember growing up playing those awesome games on your parents first phones! Ah, how great those days were! We have created this game to remind you those lost golden days. We have made a space shooter game where you, the player, run a spaceship. You can control which direction you are going. There are enemies/objects approaching you (or you approaching them)! A collision with any of those objects is very deadly for your spaceship. The easiest way to continue moving is to destroy these objects as you find them. You can shoot at a certain interval to destroy them. Destroying them increases your score in intergalactic tourist rank, because, guess what, you are making future journeys easier for others! However, you can't always destroy those enemies. And in that case you need to avoid them, as a collision may be very deadly for spaceship. You may somehow survive one, two or three, but the best ship available in the universe right now (yes, that's yours!) survive five such collisions :'(
 </p>
 <br/><br/>
 <br/><br/>
@@ -133,14 +135,11 @@ fig.3 Pin Diagram for GPS/GSM module
 <hr />
 
 <ol>
-  <li><p style="font-size:120%">The most diffiult problem we had to solve is to manage the data received through the GPS receiver. It receives a lot of data in a very short interval and it was difficult to sort out only the necessary attributes in a very short time.</p></li>
-  <li><p style="font-size:120%">GPS/GSM Module and some more things to interface them:
+  <li><p style="font-size:120%">After we had finished writing the codes for our project we designed the circuit in Proteus simulator. Everything was working as expected. However, when we implemented the same circuit in hardware, it was not working. We tried to find out reason, but didn't find any. Finally a tweak in the codebase let us solve the problem.</p></li>
     
-  <li><p style="font-size:120%">We had to observe the strings the GSM module gives in reply of different AT commands. We had to receive every reply carefully otherwise the device's behavior becomes unexpected.</p></li>
+  <li><p style="font-size:120%">After we had connected both the bicolor LED matrices, they started to behave randomly due to voltage fluctuation, caused by wire connections getting loose after a movement.</p></li>
     
-  <li><p style="font-size:120%">We faced problems with the mux. It was due to transferring lots of data frequently while receiving GPS data.</p></li>
-
-  <li><p style="font-size:120%">Power source management was a problem we faced. We needed at least 9v and 1amp. Voltage was not a problem, but ensuring 1amp current was not being possible with batteries as they got discharged quickly. So, we used adapter for power source.</p></li>
+  <li><p style="font-size:120%">Initially we had written the whole codebase in C++. But the library that we used to interface our gyroscope with ATmega32 module was written in C. Compiling both using the same compiler created some compatibility issues, which was fixed by compiling the C code with a C compiler and using a different ATmega32 for that.</p></li>
 </ol>
 </p>
 <br/><br/>
@@ -149,13 +148,11 @@ fig.3 Pin Diagram for GPS/GSM module
 <hr />
 <h2><a name="p_g">Group Members Information</a></h2>
 <hr />
-<h3><p style="font-size:120%">Section B1: Group 5</p></h3>
+<h3><p style="font-size:120%">Section B2</p></h3>
 <ul>
-  <li><p style="font-size:120%">Sakib Al Hasan (1205***)</p></li>
-  <li><p style="font-size:120%">Sakib Al Hasan (1205***)</p></li>
-  <li><p style="font-size:120%">Sakib Al Hasan (1205***)</p></li>
-  <li><p style="font-size:120%">Sakib Al Hasan (1205***)</p></li>
-  <li><p style="font-size:120%">Sakib Al Hasan (1205***)</p></li>
+  <li><p style="font-size:120%">Kh. Ashiqur Rahman (1605103)</p></li>
+  <li><p style="font-size:120%">Md. Zunaed Karim (1605113)</p></li>
+  <li><p style="font-size:120%">Tasin Ishmam (1605115)</p></li>
 </ul>
 <br/><br/>
 <br/><br/>
@@ -164,9 +161,8 @@ fig.3 Pin Diagram for GPS/GSM module
 <h2><a name="p_h">Course Teachers</a></h2>
 <hr />
 <ol>
-  <li><p style="font-size:120%">Name of Lab Teacher</p></li>
-  <li><p style="font-size:120%">Name of Lab Teacher</p></li>
-  <li><p style="font-size:120%">Name of Lab Teacher</p></li>
+  <li><p style="font-size:120%">Md. Tareq Mahmood</p></li>
+  <li><p style="font-size:120%">Md. Masum Mushfiq</p></li>
 </ol>
 
 <br/><br/>
