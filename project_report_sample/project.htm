@@ -1,9 +1,13 @@
 <html>
+<head>
+  <title>Project Report</title>
+</head>
+
 <body style="background-color:9999FF;">
 
 <hr />
 <hr />
-<h1><a name="top">Vehicle Tracking System using GPS and GSM modem</a></h1>
+<h1><a name="top">Retro Space Shooting Game</a></h1>
 <hr />
 <hr />
 <br/><br/>
@@ -43,14 +47,10 @@ LED matrix is used to show the game board, and LCD display module is used to sho
   <li><p style="font-size:120%">Two 8x8 LED Matrix Module</p></li>
   <li><p style="font-size:120%">LCD Display Module</p></li>
   <li><p style="font-size:120%">4 to 16 Decoders</p></li>
-  <li><p style="font-size:120%">And some more things to interface them:
-    <ul>
-    <!-- Insert things here -->
-    <li><p style="font-size:110%">5V Fixed 1A Positive Power Supply Regulator</p></li>
-    <li><p style="font-size:110%">Registors</p></li>
-    <li><p style="font-size:110%">Capacitors</p></li>
-    </ul>
-  </li>
+  <li><p style="font-size:120%">Buzzer</p></li>
+  <li><p style="font-size:120%">Switch</p></li>
+  <li><p style="font-size:120%">5 Volt Power Supply</p></li>
+  <li><p style="font-size:120%">Breadboards, Wires etc.</p></li>
 </ul>
 </p>
 <br/><br/>
@@ -60,8 +60,11 @@ LED matrix is used to show the game board, and LCD display module is used to sho
 <hr />
 <h2><a name="h_w">How it works?</a></h2>
 <hr />
-<p style="font-size:120%">
-If you are also a 90's kid like us, you must remember growing up playing those awesome games on your parents first phones! Ah, how great those days were! We have created this game to remind you those lost golden days. We have made a space shooter game where you, the player, run a spaceship. You can control which direction you are going. There are enemies/objects approaching you (or you approaching them)! A collision with any of those objects is very deadly for your spaceship. The easiest way to continue moving is to destroy these objects as you find them. You can shoot at a certain interval to destroy them. Destroying them increases your score in intergalactic tourist rank, because, guess what, you are making future journeys easier for others! However, you can't always destroy those enemies. And in that case you need to avoid them, as a collision may be very deadly for spaceship. You may somehow survive one, two or three, but the best ship available in the universe right now (yes, that's yours!) survive five such collisions :'(
+<p style="font-size:120%">If you are also a 90's kid like us, you must remember growing up playing those awesome games on your parents first phones! Ah, how great those days were! We have created this game to remind you those lost golden days. In this game you, the player, run a spaceship. You can control which direction you are going. There are enemies/objects approaching you (or you approaching them)! A collision with any of those objects is very deadly for your spaceship. </p>
+
+<p style="font-size:120%">The easiest way to continue moving is to destroy these objects as you find them. You can shoot at a certain interval to destroy them. Destroying them increases your score in intergalactic tourist rank, because, guess what, you are making future journeys easier for others! However, you can't always destroy your enemies, as they can sometimes find out a way to stay out of your range. And in that case you need to avoid them, of course. I am telling you again, a collision may be very deadly for your spaceship, as you may forget. You may somehow survive one, two or three, but the best ship available in the universe right now (yes, that's yours!) survive five such collisions :'(</p>
+
+<p style="font-size:120%">There are some minor details in the game. You can see your intergalactic tourist score in the LCD display we have here. You can also see how many collisions you afford before your spaceship breaks. You can also get bonus points when you manage to destroy 5 enemies in a row without harming your ship.
 </p>
 <br/><br/>
 <br/><br/>
@@ -84,25 +87,19 @@ fig.1 Block Diagram
 <h2><a name="a_g">Algorithm</a></h2>
 <hr />
 <br/><br/>
-<p style="font-size:120%">
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.Start<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.GSM module's receiver turned on<br/> 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.GPS receiver remains turned off<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.GSM waits for an SMS request<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.If receives a request<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.If the request is valid<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7.Turn off the GSM receiver<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8.Turn on GPS receiver<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9.Get GPS data<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10.Turn off GPS receiver<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;11.Turn on GSM receiver<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;12.Parse data and get the Location<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;13.Send an SMS including position information<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;14.Else go to (4)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15.Else go to (4)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;16.End<br/>
-</p>
-     
+
+<ol style="font-size:120%">
+  <li>Start</li>
+  <li>Calibrate the Gyroscope for 15-20 seconds</li>
+  <li>Detect input from gyroscope, move ship according to input</li>
+  <li>Activate deactived bullet if fixed time has passed since last shooting and button is clicked</li>
+  <li>Calculate the postions of all the objects in game borad</li>
+  <li>Increase score if any killed enemy is detected</li>
+  <li>Decrease health if a collision is detected</li>
+  <li>If health is 0, go to Step 10</li>
+  <li>Go to step 3</li>
+  <li>End</li>
+</ol>
 
 <br/><br/>
 <br/><br/>
